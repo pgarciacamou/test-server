@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Pablo Garcia">
+  <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+</head>
+<body>
+  <ul class="url-container"></ul>
+
+  <script type="text/javascript">
+    var xhttp = new XMLHttpRequest();
+    var $ = document.querySelector.bind(document);
+
+    xhttp.addEventListener("load", function () {
+      var response = JSON.parse(xhttp.response);
+      console.log(response);
+
+      var container = $(".url-container");
+      response.urls.forEach(function (url) {
+        var li = document.createElement("li");
+        var anchor = document.createElement("a");
+        var text = document.createTextNode(url);
+
+        anchor.appendChild(text);
+        console.log(encodeURIComponent(url));
+
+        anchor.setAttribute("href", (/^http/.test(url) ? "" : "//") + url);
+        anchor.setAttribute("target", "_blank");
+
+        li.appendChild(anchor);
+        container.appendChild(li);
+      });
+    });
+    xhttp.open("GET", "/urls");
+    xhttp.send();
+  </script>
+</body>
+</html>
